@@ -29,6 +29,12 @@ export function SignIn() {
             <div className="pt-4">
             <Button variant="primary" text="Sign In" size="md" fullWidth={true} loading={false} 
             onClick={verifyUser}></Button>
+            <Button variant="secondary" text="Open Source" size="sm" onClick={() => {
+              window.location.href = "https://github.com/rohit-sekhri51"
+            }}></Button>
+            <Button variant="secondary" text="Twitter" size="sm" onClick={() => {
+              window.location.href = "https://x.com/RohitSekhri"
+            }}></Button>
             </div>
         </div> 
 

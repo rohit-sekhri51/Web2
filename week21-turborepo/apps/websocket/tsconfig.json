@@ -1,0 +1,8 @@
+{
+    "extends": "@repo/typescript-config/backends.json", // extends the shared config  file
+    "compilerOptions": {
+      "outDir": "./dist",
+      "rootDir": "./src"
+    },  
+    "include": ["src"],
+  }

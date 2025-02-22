@@ -11,6 +11,7 @@ export interface ButtonProps {
     onClick?: () => void;
     fullWidth?: boolean;
     loading?: boolean;
+    //data-modal-hide?: string;  // data-modal-hide="default-modal"
 }
 
 const defaultStyles = "rounded-md p-4 flex items-center"    //  justify-center horizantly align

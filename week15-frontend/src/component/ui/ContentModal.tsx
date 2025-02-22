@@ -7,7 +7,7 @@ import { Button } from './Button';
 
 interface ModalProps {
     isOpen: boolean | (() => void);
-    onClose: boolean | (() => void);
+    onClose: boolean | (() => void);        // onClick {(e) => e.stopPropagation()}
 }
 
 // enum contentTypes {
@@ -41,15 +41,15 @@ export function ContentModal({isOpen, onClose}: ModalProps) {
 
     return <div>
        {isOpen && <div>
-       <div className="w-screen h-screen bg-slate-500 fixed top-0 left-0 opacity-80 flex justify-center">
+       <div id="default-modal" aria-hidden='false' className="w-screen h-screen bg-slate-500 fixed top-0 left-0 opacity-80 flex justify-center">
         </div>
        <div className="w-screen h-screen fixed top-0 left-0 flex justify-center">
             <div className="flex flex-col justify-center">
                 <span className="bg-white opacity-100 p-4 rounded">
-                    <div className="flex justify-end cursor-pointer hover:bg-gray-200" onClick={onClose}>
+                    <div className="flex justify-end cursor-pointer hover:bg-gray-200" onClick={() => onClose}>
                         <CrossIcon/>
                     </div>
-                    <div>
+                    <div className='font-semibold text-md'>
                         <Input reference={linkRef} placehold={"Link"} />
                         <Input reference={typeRef} placehold={"Type"} />
                         <Input reference={titleRef} placehold={"Title"} />
