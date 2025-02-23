@@ -1,6 +1,7 @@
 import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
+import { prisma } from "db/client";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -18,7 +19,10 @@ const ThemeImage = (props: Props) => {
   );
 };
 
-export default function Home() {
+export default async function Home() {
+
+  const users = await prisma.user.findMany();
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -66,6 +70,16 @@ export default function Home() {
         <Button appName="web" className={styles.secondary}>
           Open alert
         </Button>
+        <div>
+          <h2>All USERS</h2>
+          <ul>
+            {users.map((user) => (
+              <li key={user.id}>
+                {user.username}
+              </li>
+            ))}
+          </ul>
+        </div>
       </main>
       <footer className={styles.footer}>
         <a
@@ -100,3 +114,21 @@ export default function Home() {
     </div>
   );
 }
+
+export const revalidate = 60 // revalidate every 60 seconds, making it no more static (ISG), w/o it , it is static (SSG)
+// or Incremental Site Generation (ISG) can be forced on every request by setting the revalidate property to a dynamic value like 'force-dynamic'
+// export const dynamic = 'force-dynamic'
+
+/*  
+  The above code is a Next.js page that uses the Prisma client to fetch all users from the database and display them in a list. 
+  
+  The page also includes a revalidate property that sets the page to revalidate every 60 seconds to ensure the data is up to date.
+  In Next.js, the revalidate property can be used to set the revalidation interval for static pages.
+  bun run dev, it reflects the dynamic data from the database.
+  bun run build, it generates a static page with the initial data fetched at build time.
+  bun run start, it serves the static page and revalidates the data every 60 seconds.
+  The revalidate property can be set to a number of seconds or a dynamic value like 'force-dynamic' to revalidate on every request.
+  Using the The revalidate property, there is no difference b/w (bun dev) and (bun build + bun start)
+  Earlier, bun dev was dynamic and bun build + bun start was static.
+  Hence, dockerfile in production should have the revalidate property set to a dynamic value like 'force-dynamic' to ensure the data is always up to date.
+  */ 
